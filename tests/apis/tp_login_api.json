@@ -1,0 +1,115 @@
+{
+    "name": "登录接口",
+    "code": "tp_login_api",
+    "versions": ["v1.0", "v2.0"],
+    "route": "/user/login",
+    "method": "POST",
+    "setup": [
+
+    ],
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "fields": [
+        {
+            "name": "account",
+            "data_type": {
+                "base": "str"
+            },
+            "length": {
+                "base": 30
+            },
+            "required": {
+                "base": true,
+                "case": {
+                    "value": "eval:notfill",
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": "40001",
+                        "$.msg": "账号必填"
+                    },
+                    "desc": "参数不填"
+                }
+            },
+            "nullable": {
+                "base": false,
+                "case": {
+                    "value": null,
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": "40001",
+                        "$.msg": "账号必填"
+                    },
+                    "desc": "字段填null"
+                }
+            },
+            "location": 1,
+            "prefetch": {
+                "base": "eval:consts['account']",
+                "case": {
+                    "value": "eval:consts['account']",
+                    "desc": "默认账户"
+                }
+            },
+            "desc": "账户"
+        },
+        {
+            "name": "password",
+            "data_type": "str",
+            "length": {
+                "base": 30
+            },
+            "required": {
+                "base": true,
+                "case": {
+                    "value": "eval:notfill",
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": "40002",
+                        "$.msg": "密码必填"
+                    },
+                    "desc": "参数不填"
+                }
+            },
+            "nullable": {
+                "base": null,
+                "case": {
+                    "value": null,
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": "40002",
+                        "$.msg": "密码必填"
+                    },
+                    "desc": "字段填null"
+                }
+            },
+            "location": 1,
+            "prefetch": {
+                "base": "eval:consts['password']",
+                "case": {
+                    "value": "eval:consts['password']",
+                    "desc": "默认密码"
+                }
+            },
+            "desc": "密码"
+        }
+    ],
+    "teardown": [],
+    "additional": [],
+    "response": {
+        "code": 200,
+        "data": {
+            "current_role_id": 2,
+            "user_info": {
+            },
+            "user_roles": {
+                "id": 2,
+                "roles": []
+            }, "token": "..."
+        }
+    },
+    "response_assert": {
+        "$.code": "200",
+        "$.data.token": "\\w+"
+    }
+}

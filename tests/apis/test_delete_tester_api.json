@@ -1,0 +1,43 @@
+{
+    "name": "删除tester接口",
+    "code": "test_delete_tester",
+    "versions": ["v1.0", "v2.0"],
+    "route": "/tp/testers/{id}",
+    "method": "DELETE",
+    "setup": [
+        "eval:test_create_tester()"
+    ],
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "fields": [
+        {
+            "name": "id",
+            "data_type": {
+                "base": "int",
+                "case": {
+                    "value": 99999999,
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": 404,
+                        "$.msg": "tester not existed"
+                    },
+                    "desc": "tester_id不存在"
+                }
+            },
+            "location": 3,
+            "prefetch": {
+                "base": {
+                    "value": "eval:s1.data.id",
+                    "desc": "testerID"
+                }
+            },
+            "desc": "testerID"
+        }
+    ],
+    "teardown": [
+    ],
+    "response": {
+        "$.code": "200"
+    }
+}

@@ -1,0 +1,60 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "easy test api standard",
+    "description": "request fields of api",
+    "type": "array",
+    "properties": {
+        "items": [
+            {
+                "description": "field",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": " name of field",
+                        "type": "string"
+                    },
+                    "data_type": {
+                        "description": "type of field",
+                        "type": "string"
+                    },
+                    "location": {
+                        "description": "location of field",
+                        "type": "string"
+                    },
+                    "length": {
+                        "description": "length of field",
+                        "type": "string"
+                    },
+                    "required": {
+                        "description": "Is it required",
+                        "type": "string"
+                    },
+                    "unique": {
+                        "description": "Is it unique",
+                        "type": "string"
+                    },
+                    "nullable": {
+                        "description": "Is it unique",
+                        "type": "string"
+                    },
+                    "prefetch": {
+                        "description": "Is there any pre-dependency",
+                        "type": "string"
+                    },
+                    "regular": {
+                        "description": "Is there a regular rule",
+                        "type": "string"
+                    },
+                    "desc": {
+                        "description": "for case name",
+                        "type": "string"
+                    }
+                }
+            }
+        ]
+    },
+    "required": [
+        "name",
+        "desc"
+    ]
+}

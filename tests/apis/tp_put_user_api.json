@@ -1,0 +1,278 @@
+{
+    "id": 2,
+    "desc": "更新用户信息接口",
+    "code": "tp_put_user_api",
+    "versions": [
+        "v1.0",
+        "v2.0"
+    ],
+    "route": "/tp/user/{id}",
+    "method": "PUT",
+    "setup": [
+        "eval:tp_login_api(account=consts['account'], password=consts['password'])",
+        "eval:tp_post_user_api()"
+    ],
+    "headers": {
+        "Content-Type": "application/json",
+        "token": "eval:s0.data.token"
+    },
+    "fields": [
+        {
+            "name": "id",
+            "data_type": {
+                "base": "int"
+            },
+            "length": {
+                "base": 30
+            },
+            "location": 3,
+            "prefetch": {
+                "base": {
+                    "value": "eval:s1.data.user_info.id",
+                    "desc": "默认账户"
+                },
+                "case": {
+                    "value": "eval:s1.data.user_info.id",
+                    "desc": "默认账户"
+                }
+            },
+            "desc": "账户"
+        },
+        {
+            "name": "username",
+            "data_type": "char",
+            "required": {
+                "base": true
+            },
+            "nullable": {
+                "base": false
+            },
+            "unique": {
+                "base": true,
+                "case": {
+                    "value": "username_not_repeat",
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": "587", "$.msg": "Duplicate entry '.*' for key 'username'"
+                    },
+                    "desc": "唯一性验证"
+                }
+            },
+            "length": {
+                "limits": [1, 30],
+                "cases": [
+                    {
+                        "value": "",
+                        "flag": false,
+                        "expect_result":{
+                            "$.code": 500,
+                            "$.msg": "Column 'username' cannot be empty string or space"
+                        },
+                        "desc": "最小边界值验证"
+                    },
+                    {
+                        "value": "0123456789012345678901234567890",
+                        "flag": false,
+                        "expect_result":{
+                            "$.code": 500,
+                            "$.msg": "Data too long for column 'username' at row 1"
+                        },
+                        "desc": "最大边界值验证"
+                    }
+                ]
+            },
+            "mark": "eta_",
+            "location": 1,
+            "desc": "用户名称"
+        },
+        {
+            "name": "user_code",
+            "data_type": "varchar",
+            "required": {
+                "base": true
+            },
+            "nullable": {
+                "base": false
+            },
+            "unique": {
+                "base": true,
+                "case": {
+                    "value": "user_code_not_repeat",
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": "587", "$.msg": "Duplicate entry '.*' for key 'user_code'"
+                    },
+                    "desc": "唯一性验证"
+                }
+            },
+            "length": {
+                "limits": [1, 30],
+                "cases": [
+                        {
+                            "value": "",
+                            "flag": false,
+                            "expect_result":{
+                                "$.code": 500,
+                                "$.msg": "Column 'user_code' cannot be empty string or space"
+                            },
+                            "desc": "最小边界值验证"
+                        },
+                        {
+                            "value": "0123456789012345678901234567890",
+                            "flag": false,
+                            "expect_result":{
+                                "$.code": 500,
+                                "$.msg": "Data too long for column 'user_code' at row 1"
+                            },
+                            "desc": "最大边界值验证"
+                        }
+                ]
+            },
+            "location": 1,
+            "desc": "用户账户"
+        },
+        {
+            "name": "email",
+            "data_type": "varchar",
+            "required": {
+                "base": true
+            },
+            "nullable": {
+                "base": false
+            },
+            "unique": {
+                "base": true,
+                "case": {
+                    "value": "838863149@qq.com",
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": "587",
+                        "$.msg": "Duplicate entry .*"
+                    },
+                    "desc": "唯一性验证"
+                }
+            },
+            "length": {
+                "limits": [1, 30],
+                "cases":[
+                    {
+                        "value": "012345678901234567890123@qq.com",
+                        "flag": false,
+                        "expect_result":{
+                            "$.code": 500,
+                            "$.msg": "Data too long for column 'email' at row 1"
+                        },
+                        "desc": "最大边界值验证"
+                    }
+                ]
+            },
+            "location": 1,
+            "regular": {
+                "pattern": "^\\w+@qq\\.com$",
+                "cases": [
+                    {
+                        "value": "xxxxq.com",
+                        "flag": false,
+                        "expect_result":{
+                            "$.code": 500,
+                            "$.msg": "邮箱不符合格式"
+                        },
+                        "desc": "验证错误格式"
+                    }
+                ]
+            },
+            "desc": "邮箱"
+        },
+        {
+            "name": "phone",
+            "data_type": {
+                "type": "varchar"
+            },
+            "required": {
+                "base": false
+            },
+            "nullable": {
+                "base": false,
+                "case": {
+                    "value": null,
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": "587",
+                        "$.msg": "Column 'phone' cannot be null"
+                    },
+                    "desc": "填写null"
+                }
+            },
+            "unique": {
+                "base": true,
+                "case": {
+                    "value": "13922771534",
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": "587",
+                        "$.msg": "手机号不能重复"
+                    },
+                    "desc": "唯一性验证"
+                }
+            },
+            "length": {
+                "limits": 11,
+                "cases":[
+                    {
+                        "value": "139123456789",
+                        "flag": false,
+                        "expect_result":{
+                            "$.code": 500,
+                            "$.msg": "手机号位数过长"
+                        },
+                        "desc": "最大边界值验证"
+                    }
+                ]
+            },
+            "location": 1,
+            "regular": {
+                "pattern": "^((13[0-9])|(14(5|7))|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$",
+                "cases": [
+                    {
+                        "value": "xxxxxxxxxxxxx",
+                        "flag": false,
+                        "expect_result":{
+                            "$.code": 500,
+                            "$.msg": "手机不符合格式"
+                        },
+                        "desc": "验证错误格式"
+                    }
+                ]
+            },
+            "desc": "手机号"
+        },
+        {
+            "name": "remark",
+            "data_type": "text",
+            "length": {
+                "limits": [0, 256],
+                "cases": [
+                    {
+                        "value": "eval:random_str(257)",
+                        "flag": false,
+                        "expect_result":{
+                            "$.code": 500,
+                            "$.msg": "Data too long for column 'remark' at row 1"
+                        },
+                        "desc": "最大边界值验证"
+                    }
+                ]
+            },
+            "location": 1,
+            "desc": "备注"
+        }
+    ],
+    "teardown": [
+        "eval:tp_del_user_api(id=s1.rsp.data.id)"
+    ],
+    "response": {
+        "$.code": "200",
+        "$.data.id": "\\d+",
+        "$.msg": "ok"
+    }
+}

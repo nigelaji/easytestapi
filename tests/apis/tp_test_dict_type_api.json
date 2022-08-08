@@ -1,0 +1,46 @@
+{
+    "name": "测试接口",
+    "code": "tp_test_dict_api_api",
+    "versions": ["v1.0", "v2.0"],
+    "route": "/user/test/{id}",
+    "method": "POST",
+    "setup": [
+        "eval:tp_login_api(account=consts['account'], password=consts['password'])"
+    ],
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "fields": [
+        {
+            "name": "test_email",
+            "data_type": "str",
+            "length": 20,
+            "desc": "测试对象类型"
+        },
+        {
+            "name": "id",
+            "data_type": "int",
+            "length": 10,
+            "location": 3,
+            "desc": "测试id"
+        },
+        {
+            "name": "test.f2",
+            "length": 10,
+            "desc": "测试字段2"
+        }
+    ],
+    "files": [],
+    "teardown": [],
+    "additional": [],
+    "response": {
+        "code": 200,
+        "data": {
+            "test": 2
+        }
+    },
+    "response_assert": {
+        "$.code": "200",
+        "$.data.token": "\\w+"
+    }
+}

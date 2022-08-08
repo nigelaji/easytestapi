@@ -1,0 +1,43 @@
+{
+    "id": 3,
+    "desc": "删除用户接口",
+    "code": "tp_del_user_api",
+    "versions": ["v1.0", "v2.0"],
+    "route": "/tp/user/{id}",
+    "method": "DELETE",
+    "setup": [
+        "eval:tp_login_api()",
+        "eval:tp_post_user_api()"
+    ],
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "fields": [
+        {
+            "name": "id",
+            "data_type": {
+                "base": "int"
+            },
+            "length": {
+                "base": 30
+            },
+            "location": 3,
+            "prefetch": {
+                "base": {
+                    "value": "eval:s1.data.user_info.id",
+                    "desc": "默认账户"
+                },
+                "case": {
+                    "value": "eval:s1.data.user_info.id",
+                    "desc": "默认账户"
+                }
+            },
+            "desc": "账户"
+        }
+    ],
+    "teardown": [
+    ],
+    "response": {
+        "$.code": "200"
+    }
+}

@@ -1,0 +1,65 @@
+{
+    "name": "查询testers列表接口",
+    "code": "test_select_testers",
+    "versions": [
+        "v1.0",
+        "v2.0"
+    ],
+    "route": "/tp/testers",
+    "method": "POST",
+    "setup": [
+        "eval:test_create_tester()"
+    ],
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "fields": [
+        {
+            "name": "start_time",
+            "data_type": {
+                "base": "datetime"
+            },
+            "location": 2,
+            "desc": "开始时间"
+        },
+        {
+            "name": "end_time",
+            "data_type": {
+                "base": "datetime"
+            },
+            "location": 2,
+            "desc": "结束时间"
+        },
+        {
+            "name": "page",
+            "data_type": {
+                "base": "int"
+            },
+            "location": 2,
+            "desc": "页码"
+        },
+        {
+            "name": "per_page",
+            "data_type": {
+                "base": "int"
+            },
+            "location": 2,
+            "desc": "每页记录条数"
+        }
+    ],
+    "teardown": [
+        "eval:test_delete_tester(route_params={'id': s1.data.id})"
+    ],
+    "response": {
+        "code": 200,
+        "data": {
+            "id": 123
+        },
+        "msg": ""
+    },
+    "response_assert": {
+        "$.code": "200",
+        "$.data.id": "\\d+",
+        "$.msg": "ok"
+    }
+}

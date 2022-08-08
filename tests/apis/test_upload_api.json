@@ -1,0 +1,17 @@
+{
+    "name": "test上传文件接口",
+    "code": "test_upload_api",
+    "versions": ["v1.0", "v2.0"],
+    "route": "/upload",
+    "method": "POST",
+    "setup": [
+    ],
+    "headers": {
+    },
+    "files": ["D:\\sīmā-bandha\\easytestapi\\tests\\apis\\test_upload_api.json"],
+    "teardown": [
+    ],
+    "response": {
+        "$.code": "200"
+    }
+}

@@ -1,0 +1,140 @@
+{
+    "name": "创建tester接口",
+    "code": "test_create_tester",
+    "versions": ["v1.0"],
+    "route": "/tp/testers",
+    "method": "POST",
+    "setup": [
+
+    ],
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "fields": [
+        {
+            "name": "test_str",
+            "data_type": "str",
+            "length": 30,
+            "required": {
+                "base": true,
+                "case": {
+                    "value": "eval:notfill",
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": "500",
+                        "$.msg": "字段必填"
+                    },
+                    "desc": "字段不填"
+                }
+            },
+            "nullable": {
+                "base": false,
+                "case": {
+                    "value": null,
+                    "flag": false,
+                    "expect_result": {
+                        "$.code": "500",
+                        "$.msg": "不可为null"
+                    },
+                    "desc": "字段填null"
+                }
+            },
+            "location": 1,
+            "desc": "测试字符串",
+            "mark": "tester_"
+        },
+        {
+            "name": "test_int",
+            "data_type": "integer",
+            "location": 1,
+            "desc": "测试数值"
+        },
+        {
+            "name": "test_float",
+            "data_type": "float",
+            "length": {
+                "base": 10
+            },
+            "location": 1,
+            "desc": "测试浮点数"
+        },
+        {
+            "name": "test_phone",
+            "data_type": "str",
+            "length": {
+                "base": 11
+            },
+            "location": 1,
+            "regular": {
+                "base": "^((13[0-9])|(14(5|7))|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$",
+                "cases": [
+                    {
+                        "value": "11122223333",
+                        "flag": false,
+                        "expect_result":{
+                            "$.code": 500,
+                            "$.msg": "仅支持大陆手机号"
+                        },
+                        "desc": "验证错误手机号"
+                    }
+                ]
+            },
+            "desc": "测试手机号"
+        },
+        {
+            "name": "test_dt",
+            "data_type": {
+                "base": "datetime",
+                "cases": [
+                    {
+                        "value": "xxxxxxxxxxxxx",
+                        "flag": false,
+                        "expect_result":{
+                            "$.code": 500,
+                            "$.msg": "测试日期格式不合法"
+                        },
+                        "desc": "验证错误日期格式"
+                    }
+                ]
+            },
+            "length": {
+                "base": 11
+            },
+            "location": 1,
+            "desc": "测试日期字符串"
+        },
+        {
+            "name": "test_enum",
+            "data_type": {
+                "base": "enum",
+                "cases": [
+                    {
+                        "value": "xxxxxxxxxxxxx",
+                        "flag": false,
+                        "expect_result":{
+                            "$.code": 500,
+                            "$.msg": "不存在此枚举值"
+                        },
+                        "desc": "验证不存在的枚举值"
+                    }
+                ]
+            },
+            "enums": ["A", "B", "C"],
+            "location": 1,
+            "desc": "测试枚举值"
+        }
+    ],
+    "teardown": [],
+    "additional": [],
+    "response": {
+        "code": 200,
+        "data": {
+            "id": 1
+        },
+        "msg": "ok"
+    },
+    "response_assert": {
+        "$.code": "200",
+        "$.data.id": "\\d+"
+    }
+}

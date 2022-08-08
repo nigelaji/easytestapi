@@ -1,0 +1,76 @@
+{
+    "id": 3,
+    "desc": "查询用户列表接口",
+    "code": "tp_get_users_api",
+    "versions": ["v1.0", "v2.0"],
+    "route": "/tp/users",
+    "method": "GET",
+    "setup": [
+        "eval:tp_login_api()",
+        "eval:tp_post_user_api()"
+    ],
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "fields": [
+        {
+            "name": "start_time",
+            "data_type": {
+                "base": "datetime"
+            },
+            "location": 2,
+            "desc": "开始时间"
+        },
+        {
+            "name": "end_time",
+            "data_type": {
+                "base": "datetime"
+            },
+            "location": 2,
+            "desc": "结束时间"
+        },
+        {
+            "name": "page",
+            "data_type": {
+                "base": "int"
+            },
+            "location": 2,
+            "desc": "页码"
+        },
+        {
+            "name": "per_page",
+            "data_type": {
+                "base": "int"
+            },
+            "location": 2,
+            "desc": "每页记录条数"
+        }
+    ],
+    "additional": [
+        {
+            "params": {
+                "start_time": "2020-10-10 00:00:00",
+                "end_time": "2020-01-01 00:00:00"
+            },
+            "flag": false,
+            "expect_result": {
+                "$.code": 500,
+                "$.msg": "开始时间不能大于结束时间"
+            },
+            "desc": "开始时间不能大于结束时间"
+        }
+    ],
+    "teardown": [
+        "eval:tp_del_user_api()"
+    ],
+    "response": {
+        "$.code": "200",
+        "$.data.items.0.id": "eval:s1.rsp.data.id"
+    },
+    "mocks": [
+        {
+            "path": ""
+        },
+        {}
+    ]
+}

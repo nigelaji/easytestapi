@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>接口测试报告</title>
+</head>
+<style>
+    li{
+        list-style: none;
+    }
+    .summary{
+    }
+    .summary .title {
+        text-align: center;
+        line-height: 50px;
+    }
+    .summary .count {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .summary .count li{
+        line-height: 50px;
+        padding: 20px;
+    }
+    .api-list{
+        margin-top: 25px;
+    }
+
+    .api-name{
+        width: 100%;
+        margin: auto;
+        cursor: pointer;  /*这个属性就是将鼠标的光标变成手*/
+        color:#34538b;
+    }
+    .cases{}
+    .cases-hide{
+        display: none;
+    }
+    .case{
+        display: block;
+        margin-left: 18px;
+    }
+    .case-name{
+        width: 100%;
+        margin: auto;
+        cursor: pointer;  /*这个属性就是将鼠标的光标变成手*/
+        color: #617fb4;
+    }
+    .steps{
+        margin-left: 35px;
+    }
+    .steps-hide{
+        display: none;
+    }
+
+</style>
+<body>
+    <div id="app">
+        <div class="summary">
+            <div class="title">
+                <h2>接口测试报告</h2>
+            </div>
+            <div class="count">
+                <li>接口数：{{summary.api_num}}</li>
+                <li>用例数：{{summary.case_num}}</li>
+                <li style="background-color: green">通过：{{summary.pass_num}}</li>
+                <li style="background-color: red">失败：{{summary.fail_num}}</li>
+            </div>
+        </div>
+        <hr>
+        <div class="api-list">
+            {% for api in apis %}
+            <div class="api">
+                <label class="api-name" onclick="hide_cases(this)">{{ loop.index }}、接口名称： {{api.name}}</label>
+                <div class="cases-hide">
+                    {% for case in api.cases %}
+                    <div class="case">
+                        <label class="case-name" onclick="hide_steps(this)">{{ loop.index }}、用例名称： {{case.name}}</label>
+                        <div class="steps-hide">
+                            {% for step in case.steps %}<li>步骤-{{ loop.index }}： {{ step.info }}</li>{% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+<script>
+    function hide_cases(self){
+        var bro = self.nextElementSibling;
+        if (bro.className==="cases-hide"){
+            bro.className = "cases";
+        }else {
+            bro.className = "cases-hide";
+        }
+    }
+
+    function hide_steps(self){
+        var bro = self.nextElementSibling;
+        if (bro.className==="steps-hide"){
+            bro.className = "steps";
+        }else {
+            bro.className = "steps-hide";
+        }
+    }
+
+</script>
+</html>

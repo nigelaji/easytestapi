@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .content {
+        padding: 10px 80px;
+    }
+    .part-title {
+        font-family: "Microsoft YaHei UI",sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .desc {
+        font-family: "Microsoft YaHei UI",sans-serif;
+    }
+    .method{
+        font-style: italic;
+    }
+    table {
+        border-collapse:collapse;
+    }
+    table, th, td {
+        border: 1px solid;
+        padding: 8px;
+    }
+    td{
+        font-size: 15px;
+    }
+    .code {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow: auto;
+        padding: 5px;
+    }
+</style>
+<body>
+<ol>
+    <ul class="part-title">名称</ul>
+    <ul class="content desc">
+        {{ api.desc }}
+    </ul>
+    <ul class="part-title">请求路径</ul>
+    <ul class="content route">
+        {{api.route}}
+    </ul>
+    <ul class="part-title">请求方法</ul>
+    <ul class="content method">
+        {{api.method}}
+    </ul>
+    <ul class="part-title">请求头</ul>
+    <ul class="content">
+        <div class="code">{{api.headers}}</div>
+    </ul>
+    <ul class="part-title">请求参数</ul>
+    <ul class="content params">
+        <div class="body-params">
+            <table>
+                <tr>
+                    <th>参数名称</th>
+                    <th>数据类型</th>
+                    <th>长度</th>
+                    <th>是否必填</th>
+                    <th>是否可为空</th>
+                    <th>是否唯一</th>
+                    <th>位置</th>
+                    <th>描述</th>
+                    <th>特殊</th>
+                </tr>
+                {% for field in api.fields %}
+                    <tr>
+                        <td>{{ field.name.base }}</td>
+                        <td>{{ field.data_type.base or 'string' }}</td>
+                        <td>{{ field.length.base or '' }}</td>
+                        <td>{{ 'yes' if field.required.base else 'no' }}</td>
+                        <td>{{ 'yes' if field.nullable.base else 'no' }}</td>
+                        <td>{{ 'yes' if field.unique.base else 'no' }}</td>
+                        {% if field.location.base | base(1) == 1 %}
+                        <td> 请求体参数 </td>
+                        {% elif field.location.base == 2 %}
+                        <td> url参数 </td>
+                        {% else %}
+                        <td> 路径参数 </td>
+                        {% endif %}
+                        <td>{{ field.desc.base }}</td>
+                        <td>预获取: {{ field.prefetch.base or '' }}, 正则规则: {{ field.regular.base or '' }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% for key, fields  in api.sub_fields.items() %}
+        <h3>{{key}}</h3>
+        <div class="sub-fields">
+            <table>
+                <tr>
+                    <th>参数名称</th>
+                    <th>数据类型</th>
+                    <th>长度</th>
+                    <th>是否必填</th>
+                    <th>是否可为空</th>
+                    <th>是否唯一</th>
+                    <th>位置</th>
+                    <th>描述</th>
+                    <th>特殊</th>
+                </tr>
+                {% for field in fields %}
+                    <tr>
+                        <td>{{ field.name.base }}</td>
+                        <td>{{ field.data_type.base or 'string' }}</td>
+                        <td>{{ field.length.base or '' }}</td>
+                        <td>{{ 'yes' if field.required.base else 'no' }}</td>
+                        <td>{{ 'yes' if field.nullable.base else 'no' }}</td>
+                        <td>{{ 'yes' if field.unique.base else 'no' }}</td>
+                        {% if field.location.base | default(1) == 1 %}
+                        <td> 请求体参数 </td>
+                        {% elif field.location.base == 2 %}
+                        <td> url参数 </td>
+                        {% else %}
+                        <td> 路径参数 </td>
+                        {% endif %}
+                        <td>{{ field.desc.base }}</td>
+                        <td>预获取: {{ field.prefetch.base or '' }}, 正则规则: {{ field.regular.base or '' }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endfor %}
+    </ul>
+    <ul class="part-title">响应示例</ul>
+    <ul class="content">
+        <div class="code">{{api.response}}</div>
+    </ul>
+</ol>
+
+</body>
+</html>

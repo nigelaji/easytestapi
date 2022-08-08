@@ -1,0 +1,127 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "easy test api standard",
+    "description": "easy test api standard",
+    "type": "object",
+    "properties": {
+        "name": {
+            "name": "name of the api",
+            "type": "string"
+        },
+        "code": {
+            "description": "globally unique code of api",
+            "type": "string"
+        },
+        "versions": {
+            "description": "versions of api",
+            "type": "array",
+            "items": [
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "route": {
+            "description": "request route of api",
+            "type": "string"
+        },
+        "method": {
+            "description": "request method of api",
+            "type": "string"
+        },
+        "setup": {
+            "description": "Pre-operation setups of api",
+            "type": "array",
+            "items": [
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "headers": {
+            "description": "request headers of api",
+            "type": "object"
+        },
+        "fields": {
+            "description": "request fields of api",
+            "type": "array",
+            "items": [
+                {
+                    "description": "field",
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": " name of field",
+                            "type": "string"
+                        },
+                        "data_type": {
+                            "description": "type of field",
+                            "type": "object"
+                        },
+                        "location": {
+                            "description": "location of field",
+                            "type": "integer"
+                        },
+                        "length": {
+                            "description": "length of field",
+                            "type": "object"
+                        },
+                        "required": {
+                            "description": "Is it required",
+                            "type": "object"
+                        },
+                        "unique": {
+                            "description": "Is it unique",
+                            "type": "object"
+                        },
+                        "nullable": {
+                            "description": "Is it unique",
+                            "type": "object"
+                        },
+                        "prefetch": {
+                            "description": "Is there any pre-dependency",
+                            "type": "object"
+                        },
+                        "regular": {
+                            "description": "Is there a regular rule",
+                            "type": "object"
+                        },
+                        "desc": {
+                            "description": "for case name",
+                            "type": "string"
+                        }
+                    }
+                }
+            ]
+        },
+        "teardown": {
+            "description": "end operation teardowns of api",
+            "type": "array",
+            "items": [
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "additional": {
+            "description": "additional cases of api",
+            "type": "array"
+        },
+        "response": {
+            "description": "response example of api",
+            "type": "object"
+        },
+        "response_assert": {
+            "description": "response assert of api",
+            "type": "object"
+        }
+    },
+    "required": [
+        "name",
+        "code",
+        "route",
+        "method",
+        "response",
+        "response_assert"
+    ]
+}
