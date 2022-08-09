@@ -19,6 +19,7 @@ python ./bin/easytestapi.py -d ./tests/apis/test_create_tester_api.json
 ```
 
 ## 接口JSON
+[test_create_tester_api.json](https://github.com/nigelaji/easytestapi/blob/main/tests/apis/test_create_tester_api.json)
 ```JSON
 {
     "name": "创建tester接口",
